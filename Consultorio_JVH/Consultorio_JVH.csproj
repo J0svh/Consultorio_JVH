@@ -84,6 +84,7 @@
     <Compile Include="Modelo\Enfermeria.cs" />
     <Compile Include="Modelo\Paciente.cs" />
     <Compile Include="Modelo\Personal.cs" />
+    <Compile Include="Utilidades\Email.cs" />
     <Compile Include="Utilidades\Encriptado.cs" />
     <Compile Include="Utilidades\Utilidades.cs" />
     <Compile Include="Vistas\InformeConsulta.cs">

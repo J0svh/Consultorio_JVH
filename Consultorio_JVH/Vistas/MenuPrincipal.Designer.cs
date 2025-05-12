@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.panel1 = new System.Windows.Forms.Panel();
-            this.dataGridViewagendamedica = new System.Windows.Forms.DataGridView();
+            this.tablaAgenda = new System.Windows.Forms.DataGridView();
             this.label1 = new System.Windows.Forms.Label();
             this.pictureBox4 = new System.Windows.Forms.PictureBox();
             this.panel2 = new System.Windows.Forms.Panel();
@@ -42,7 +42,7 @@
             this.labelfecha = new System.Windows.Forms.Label();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.panel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewagendamedica)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.tablaAgenda)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).BeginInit();
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -51,7 +51,7 @@
             // panel1
             // 
             this.panel1.BackColor = System.Drawing.Color.DeepSkyBlue;
-            this.panel1.Controls.Add(this.dataGridViewagendamedica);
+            this.panel1.Controls.Add(this.tablaAgenda);
             this.panel1.Controls.Add(this.label1);
             this.panel1.Controls.Add(this.pictureBox4);
             this.panel1.Controls.Add(this.panel2);
@@ -62,17 +62,18 @@
             this.panel1.TabIndex = 1;
             this.panel1.Paint += new System.Windows.Forms.PaintEventHandler(this.panel1_Paint);
             // 
-            // dataGridViewagendamedica
+            // tablaAgenda
             // 
-            this.dataGridViewagendamedica.BackgroundColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.dataGridViewagendamedica.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridViewagendamedica.Location = new System.Drawing.Point(44, 188);
-            this.dataGridViewagendamedica.Margin = new System.Windows.Forms.Padding(2);
-            this.dataGridViewagendamedica.Name = "dataGridViewagendamedica";
-            this.dataGridViewagendamedica.RowHeadersWidth = 51;
-            this.dataGridViewagendamedica.RowTemplate.Height = 24;
-            this.dataGridViewagendamedica.Size = new System.Drawing.Size(667, 338);
-            this.dataGridViewagendamedica.TabIndex = 10;
+            this.tablaAgenda.BackgroundColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.tablaAgenda.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.tablaAgenda.Location = new System.Drawing.Point(44, 188);
+            this.tablaAgenda.Margin = new System.Windows.Forms.Padding(2);
+            this.tablaAgenda.Name = "tablaAgenda";
+            this.tablaAgenda.ReadOnly = true;
+            this.tablaAgenda.RowHeadersWidth = 51;
+            this.tablaAgenda.RowTemplate.Height = 24;
+            this.tablaAgenda.Size = new System.Drawing.Size(667, 338);
+            this.tablaAgenda.TabIndex = 10;
             // 
             // label1
             // 
@@ -112,6 +113,7 @@
             // botonConsultas
             // 
             this.botonConsultas.BackColor = System.Drawing.Color.SteelBlue;
+            this.botonConsultas.Enabled = false;
             this.botonConsultas.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.botonConsultas.ForeColor = System.Drawing.SystemColors.ButtonFace;
             this.botonConsultas.Location = new System.Drawing.Point(46, 15);
@@ -121,10 +123,12 @@
             this.botonConsultas.TabIndex = 0;
             this.botonConsultas.Text = "CONSULTAS";
             this.botonConsultas.UseVisualStyleBackColor = false;
+            this.botonConsultas.Click += new System.EventHandler(this.botonConsultas_Click);
             // 
             // botonPersonalMedico
             // 
             this.botonPersonalMedico.BackColor = System.Drawing.Color.SteelBlue;
+            this.botonPersonalMedico.Enabled = false;
             this.botonPersonalMedico.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.botonPersonalMedico.ForeColor = System.Drawing.SystemColors.ButtonFace;
             this.botonPersonalMedico.Location = new System.Drawing.Point(1023, 15);
@@ -134,10 +138,12 @@
             this.botonPersonalMedico.TabIndex = 3;
             this.botonPersonalMedico.Text = "PERSONAL MEDICO";
             this.botonPersonalMedico.UseVisualStyleBackColor = false;
+            this.botonPersonalMedico.Click += new System.EventHandler(this.botonPersonalMedico_Click);
             // 
             // botonPacientes
             // 
             this.botonPacientes.BackColor = System.Drawing.Color.SteelBlue;
+            this.botonPacientes.Enabled = false;
             this.botonPacientes.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.botonPacientes.ForeColor = System.Drawing.SystemColors.ButtonFace;
             this.botonPacientes.Location = new System.Drawing.Point(375, 15);
@@ -147,10 +153,12 @@
             this.botonPacientes.TabIndex = 1;
             this.botonPacientes.Text = "PACIENTES";
             this.botonPacientes.UseVisualStyleBackColor = false;
+            this.botonPacientes.Click += new System.EventHandler(this.botonPacientes_Click);
             // 
             // botonEnfermeria
             // 
             this.botonEnfermeria.BackColor = System.Drawing.Color.SteelBlue;
+            this.botonEnfermeria.Enabled = false;
             this.botonEnfermeria.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.botonEnfermeria.ForeColor = System.Drawing.SystemColors.ButtonFace;
             this.botonEnfermeria.Location = new System.Drawing.Point(709, 15);
@@ -160,13 +168,14 @@
             this.botonEnfermeria.TabIndex = 2;
             this.botonEnfermeria.Text = "ENFERMERIA";
             this.botonEnfermeria.UseVisualStyleBackColor = false;
+            this.botonEnfermeria.Click += new System.EventHandler(this.botonEnfermeria_Click);
             // 
             // labelncolegiado
             // 
             this.labelncolegiado.AutoSize = true;
             this.labelncolegiado.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labelncolegiado.ForeColor = System.Drawing.Color.Black;
-            this.labelncolegiado.Location = new System.Drawing.Point(38, 85);
+            this.labelncolegiado.Location = new System.Drawing.Point(42, 98);
             this.labelncolegiado.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.labelncolegiado.Name = "labelncolegiado";
             this.labelncolegiado.Size = new System.Drawing.Size(124, 16);
@@ -178,7 +187,7 @@
             this.labelfacultativo.AutoSize = true;
             this.labelfacultativo.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labelfacultativo.ForeColor = System.Drawing.Color.Black;
-            this.labelfacultativo.Location = new System.Drawing.Point(38, 56);
+            this.labelfacultativo.Location = new System.Drawing.Point(42, 64);
             this.labelfacultativo.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.labelfacultativo.Name = "labelfacultativo";
             this.labelfacultativo.Size = new System.Drawing.Size(87, 16);
@@ -188,12 +197,12 @@
             // labelfecha
             // 
             this.labelfecha.AutoSize = true;
-            this.labelfecha.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelfecha.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labelfecha.ForeColor = System.Drawing.Color.Black;
-            this.labelfecha.Location = new System.Drawing.Point(38, 26);
+            this.labelfecha.Location = new System.Drawing.Point(42, 26);
             this.labelfecha.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.labelfecha.Name = "labelfecha";
-            this.labelfecha.Size = new System.Drawing.Size(44, 18);
+            this.labelfecha.Size = new System.Drawing.Size(40, 16);
             this.labelfecha.TabIndex = 9;
             this.labelfecha.Text = "fecha";
             // 
@@ -219,10 +228,14 @@
             this.MaximumSize = new System.Drawing.Size(1275, 750);
             this.MinimumSize = new System.Drawing.Size(1275, 750);
             this.Name = "MenuPrincipal";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "MenuPrincipal";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MenuPrincipal_FormClosing);
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.MenuPrincipal_FormClosed);
+            this.Load += new System.EventHandler(this.MenuPrincipal_Load);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewagendamedica)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.tablaAgenda)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).EndInit();
             this.panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
@@ -234,7 +247,7 @@
         #endregion
 
         private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.DataGridView dataGridViewagendamedica;
+        private System.Windows.Forms.DataGridView tablaAgenda;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.PictureBox pictureBox4;
         private System.Windows.Forms.Panel panel2;
@@ -246,5 +259,44 @@
         private System.Windows.Forms.Label labelncolegiado;
         private System.Windows.Forms.Label labelfacultativo;
         private System.Windows.Forms.Label labelfecha;
+
+        private string Mostrar(int mes)
+        {
+            switch (mes)
+            {
+                case 1:
+                    return "Enero";
+                case 2:
+                    return "Febrero";
+                case 3:
+                    return "Marzo";
+                case 4:
+                    return "Abril";
+                case 5:
+                    return "Mayo";
+                case 6:
+                    return "Junio";
+                case 7:
+                    return "Julio";
+                case 8:
+                    return "Agosto";
+                case 9:
+                    return "Septiembre";
+                case 10:
+                    return "Octubre";
+                case 11:
+                    return "Noviembre";
+                case 12:
+                    return "Diciembre";
+                default:
+                    return "Mes inválido";
+            }
+        }
+
+
     }
 }
+
+
+
+

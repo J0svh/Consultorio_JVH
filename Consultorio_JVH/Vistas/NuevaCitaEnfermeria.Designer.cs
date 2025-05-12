@@ -81,6 +81,7 @@
             this.botonRegistrar.TabIndex = 5;
             this.botonRegistrar.Text = "Registrar";
             this.botonRegistrar.UseVisualStyleBackColor = false;
+            this.botonRegistrar.Click += new System.EventHandler(this.botonRegistrar_Click);
             // 
             // comboHora
             // 

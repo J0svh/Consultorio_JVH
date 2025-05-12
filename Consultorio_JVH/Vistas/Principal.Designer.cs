@@ -95,6 +95,7 @@
             this.botonActualizar.TabIndex = 9;
             this.botonActualizar.Text = "Actualizar Consultas";
             this.botonActualizar.UseVisualStyleBackColor = false;
+            this.botonActualizar.Click += new System.EventHandler(this.botonActualizar_Click);
             // 
             // dataGridView1
             // 
@@ -153,6 +154,7 @@
             this.botonCita.TabIndex = 8;
             this.botonCita.Text = "Nueva Cita";
             this.botonCita.UseVisualStyleBackColor = false;
+            this.botonCita.Click += new System.EventHandler(this.botonCita_Click);
             // 
             // botonInforme
             // 
@@ -165,6 +167,7 @@
             this.botonInforme.TabIndex = 7;
             this.botonInforme.Text = "Nuevo Informe";
             this.botonInforme.UseVisualStyleBackColor = false;
+            this.botonInforme.Click += new System.EventHandler(this.botonInforme_Click);
             // 
             // campoMail
             // 
@@ -257,6 +260,7 @@
             this.botonBuscar.TabIndex = 2;
             this.botonBuscar.Text = "Buscar Paciente";
             this.botonBuscar.UseVisualStyleBackColor = false;
+            this.botonBuscar.Click += new System.EventHandler(this.botonBuscar_Click);
             // 
             // campoDNI
             // 
@@ -311,6 +315,7 @@
             this.Name = "Principal";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Principal";
+            this.Load += new System.EventHandler(this.Principal_Load);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
@@ -345,5 +350,8 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.PictureBox pictureBox1;
+
+        public static string DNIPaciente;
+        public static string nombreApePacientes;
     }
 }

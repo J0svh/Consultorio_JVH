@@ -42,7 +42,7 @@ namespace Consultorio_JVH.bbdd
         public static string[] RescataDatosUserLogado(string user)
         {
             string[] datos = new string[3];
-            string consulta = "select concat(nombre, ' ', apellidos), numero_colegiado, tipo from personal where usuario=?usuario";
+            string consulta = "select concat(nombre, ' ' , apellidos), numero_colegiado, tipo from personal where usuario=?usuario";
 
             using (MySqlConnection conn = new MySqlConnection(url))
             {
@@ -87,6 +87,38 @@ namespace Consultorio_JVH.bbdd
                 }
             }
             return dt;
+        }
+        public static DataTable CargarCitaEnfermeria()
+        {
+            DateTime diaHOY = DateTime.Today;
+            string fecha = diaHOY.ToString("yyyy-dd-MM");
+            string consulta = "select nombre, dia, hora from citas where dia = ?dia and hora >= ?hora";
+            DataTable dt = new DataTable();
+
+            MySqlConnection conn = new MySqlConnection(url);
+            conn.Open();
+
+            MySqlCommand command = new MySqlCommand(consulta, conn);
+           
+            command.Parameters.AddWithValue("?dia", fecha);
+
+            dt.Columns[0].ColumnName = "NOMBRE";
+            dt.Columns[1].ColumnName = "DIA";
+            dt.Columns[2].ColumnName = "HORA";
+
+            MySqlDataAdapter adapter = new MySqlDataAdapter(command);
+            adapter.Fill(dt);
+
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                string temp = Encriptado.Desencriptar(dt.Rows[i]["NOMBRE"].ToString());
+                dt.Rows[i]["NOMBRE"] = temp;
+            }
+
+            conn.Close();
+            return dt;
+
+
         }
 
         public static bool CompruebaDni(string dni)

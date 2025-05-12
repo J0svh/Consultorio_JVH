@@ -81,6 +81,7 @@
             this.buttoncancelar.TabIndex = 7;
             this.buttoncancelar.Text = "Cancelar";
             this.buttoncancelar.UseVisualStyleBackColor = false;
+            this.buttoncancelar.Click += new System.EventHandler(this.buttoncancelar_Click);
             // 
             // buttonregistrar
             // 
@@ -94,6 +95,7 @@
             this.buttonregistrar.TabIndex = 6;
             this.buttonregistrar.Text = "Registrar";
             this.buttonregistrar.UseVisualStyleBackColor = false;
+            this.buttonregistrar.Click += new System.EventHandler(this.buttonregistrar_Click);
             // 
             // groupBoxpeso
             // 

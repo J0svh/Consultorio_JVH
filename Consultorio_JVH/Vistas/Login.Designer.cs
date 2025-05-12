@@ -70,6 +70,7 @@
             this.botonEntrar.TabIndex = 3;
             this.botonEntrar.Text = "ENTRAR";
             this.botonEntrar.UseVisualStyleBackColor = false;
+            this.botonEntrar.Click += new System.EventHandler(this.botonEntrar_Click);
             // 
             // campoPass
             // 
@@ -80,6 +81,7 @@
             this.campoPass.PasswordChar = '*';
             this.campoPass.Size = new System.Drawing.Size(174, 20);
             this.campoPass.TabIndex = 2;
+            this.campoPass.UseSystemPasswordChar = true;
             // 
             // campoUser
             // 

@@ -60,7 +60,7 @@
             this.panel1.Controls.Add(this.label2);
             this.panel1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.panel1.Location = new System.Drawing.Point(-6, 94);
-            this.panel1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.panel1.Margin = new System.Windows.Forms.Padding(2);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(996, 520);
             this.panel1.TabIndex = 6;
@@ -68,7 +68,7 @@
             // campoDNI
             // 
             this.campoDNI.Location = new System.Drawing.Point(234, 27);
-            this.campoDNI.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.campoDNI.Margin = new System.Windows.Forms.Padding(2);
             this.campoDNI.Name = "campoDNI";
             this.campoDNI.ReadOnly = true;
             this.campoDNI.Size = new System.Drawing.Size(84, 21);
@@ -77,7 +77,7 @@
             // campoObservaciones
             // 
             this.campoObservaciones.Location = new System.Drawing.Point(43, 349);
-            this.campoObservaciones.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.campoObservaciones.Margin = new System.Windows.Forms.Padding(2);
             this.campoObservaciones.Multiline = true;
             this.campoObservaciones.Name = "campoObservaciones";
             this.campoObservaciones.Size = new System.Drawing.Size(888, 71);
@@ -86,7 +86,7 @@
             // campoTratamiento
             // 
             this.campoTratamiento.Location = new System.Drawing.Point(43, 224);
-            this.campoTratamiento.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.campoTratamiento.Margin = new System.Windows.Forms.Padding(2);
             this.campoTratamiento.Multiline = true;
             this.campoTratamiento.Name = "campoTratamiento";
             this.campoTratamiento.Size = new System.Drawing.Size(888, 71);
@@ -95,7 +95,7 @@
             // campoDiagnostico
             // 
             this.campoDiagnostico.Location = new System.Drawing.Point(43, 93);
-            this.campoDiagnostico.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.campoDiagnostico.Margin = new System.Windows.Forms.Padding(2);
             this.campoDiagnostico.Multiline = true;
             this.campoDiagnostico.Name = "campoDiagnostico";
             this.campoDiagnostico.Size = new System.Drawing.Size(888, 71);
@@ -107,12 +107,13 @@
             this.botonCancelar.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.botonCancelar.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
             this.botonCancelar.Location = new System.Drawing.Point(495, 439);
-            this.botonCancelar.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.botonCancelar.Margin = new System.Windows.Forms.Padding(2);
             this.botonCancelar.Name = "botonCancelar";
             this.botonCancelar.Size = new System.Drawing.Size(163, 37);
             this.botonCancelar.TabIndex = 12;
             this.botonCancelar.Text = "Cancelar";
             this.botonCancelar.UseVisualStyleBackColor = false;
+            this.botonCancelar.Click += new System.EventHandler(this.botonCancelar_Click);
             // 
             // botonGuardar
             // 
@@ -120,12 +121,13 @@
             this.botonGuardar.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.botonGuardar.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
             this.botonGuardar.Location = new System.Drawing.Point(276, 439);
-            this.botonGuardar.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.botonGuardar.Margin = new System.Windows.Forms.Padding(2);
             this.botonGuardar.Name = "botonGuardar";
             this.botonGuardar.Size = new System.Drawing.Size(165, 37);
             this.botonGuardar.TabIndex = 11;
             this.botonGuardar.Text = "Guardar";
             this.botonGuardar.UseVisualStyleBackColor = false;
+            this.botonGuardar.Click += new System.EventHandler(this.botonGuardar_Click);
             // 
             // label5
             // 

@@ -25,6 +25,13 @@ namespace Consultorio_JVH.Utilidades
             return combo.SelectedIndex <= 0;
         }
 
+        public static bool compruebaCorreo(string correo)
+        {
+            string formatoCorreo = "[@]{1}";
+
+            return Regex.IsMatch(correo, formatoCorreo);
+        }
+
         public static void MostrarAlertaCombo(string nombreCombo)
         {
             MessageBox.Show($"Debe seleccionar un elemento en el desplegable {nombreCombo}", "Alerta", MessageBoxButtons.OK, MessageBoxIcon.Warning);

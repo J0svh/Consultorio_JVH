@@ -88,8 +88,8 @@
             // botonRegistrar
             // 
             this.botonRegistrar.BackColor = System.Drawing.Color.Snow;
-            this.botonRegistrar.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.botonRegistrar.ForeColor = System.Drawing.Color.Crimson;
+            this.botonRegistrar.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.botonRegistrar.ForeColor = System.Drawing.Color.Red;
             this.botonRegistrar.Location = new System.Drawing.Point(373, 479);
             this.botonRegistrar.Margin = new System.Windows.Forms.Padding(2);
             this.botonRegistrar.Name = "botonRegistrar";
@@ -97,6 +97,7 @@
             this.botonRegistrar.TabIndex = 15;
             this.botonRegistrar.Text = "Registrar";
             this.botonRegistrar.UseVisualStyleBackColor = false;
+            this.botonRegistrar.Click += new System.EventHandler(this.botonRegistrar_Click);
             // 
             // groupBoxsalud
             // 
@@ -544,5 +545,55 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.PictureBox pictureBox1;
+
+        public string rescatarTabaco()
+        {
+            string tabaco = null;
+            if(buttonSi.Checked == true)
+            {
+                tabaco = "Fuma";
+            }else
+            {
+                tabaco = "No fuma";
+
+            }
+            return tabaco;
+        }
+        public string rescatarSexo ()
+        {
+            string sexo = null;
+            if (radioButtonM.Checked == true)
+            {
+                sexo = "Mujer";
+            }
+            else if (radioButtonH.Checked == true)
+            {
+                sexo = "Hombre";
+            }
+            else
+            {
+                sexo = "Otros";
+            }
+            return sexo;
+
+           
+        }
+        public string rescatarAlcohol()
+        {
+            string alcohol = null;
+            if (buttonHabitual.Checked == true)
+            {
+                alcohol = "Consumidor Habitualmente de alcohol";
+            }
+            else if (buttonOcasional.Checked == true)
+            {
+                alcohol = "Consumidor Ocasionalmente de alcohol";
+            }
+            else
+            {
+                alcohol = "No consume alcohol";
+            }
+            return alcohol;
+        }
     }
 }

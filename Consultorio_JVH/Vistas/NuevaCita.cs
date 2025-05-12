@@ -15,6 +15,16 @@ namespace Consultorio_JVH.Vistas
         public NuevaCita()
         {
             InitializeComponent();
+            campoDNI.Text = Principal.DNIPaciente;
+            campoNomyAPE.Text = Principal.nombreApePacientes;
+        }
+
+        private void buttonregistrar_Click(object sender, EventArgs e)
+        {
+            if ( Utilidades.Utilidades.ComboNoSeleccionado(comboHora))
+            {
+
+            }
         }
     }
 }

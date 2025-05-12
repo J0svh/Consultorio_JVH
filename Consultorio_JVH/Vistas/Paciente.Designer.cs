@@ -1,4 +1,8 @@
-﻿namespace Consultorio_JVH.Vistas
+﻿using Consultorio_JVH.bbdd;
+using System.Collections;
+using System.Windows.Forms;
+
+namespace Consultorio_JVH.Vistas
 {
     partial class Paciente
     {
@@ -76,6 +80,7 @@
             this.dataGridView1.RowTemplate.Height = 24;
             this.dataGridView1.Size = new System.Drawing.Size(535, 366);
             this.dataGridView1.TabIndex = 3;
+            this.dataGridView1.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellClick);
             // 
             // botonActualizar
             // 
@@ -89,6 +94,7 @@
             this.botonActualizar.TabIndex = 6;
             this.botonActualizar.Text = "Actualizar";
             this.botonActualizar.UseVisualStyleBackColor = false;
+            this.botonActualizar.Click += new System.EventHandler(this.botonActualizar_Click);
             // 
             // groupBox1
             // 
@@ -234,9 +240,9 @@
             this.label1.Location = new System.Drawing.Point(23, 27);
             this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(316, 29);
+            this.label1.Size = new System.Drawing.Size(443, 29);
             this.label1.TabIndex = 15;
-            this.label1.Text = "LISTADO DE PACIENTES";
+            this.label1.Text = "NUEVO INFORME DE ENFERMERIA";
             // 
             // pictureBox1
             // 
@@ -290,5 +296,37 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.PictureBox pictureBox1;
+
+        public void Actualizar()
+        {
+            ArrayList datos = new ArrayList();
+            datos.Add(campoDNI.Text);
+            datos.Add(campoNombre.Text);
+            datos.Add(campoApe.Text);
+            datos.Add(campoTelf.Text);
+            datos.Add(comboCp.SelectedValue.ToString());
+
+            if (Conexion.ActualizarPaciente(datos))
+            {
+                MessageBox.Show("DATOS del PACIENTE Actualizados Satisfactoriamente");
+                dataGridView1.DataSource = Conexion.ListadoPacientes();
+
+                campoDNI.Text = "";
+                campoNombre.Text = "";
+                campoApe.Text = "";
+                campoTelf.Text = "";
+                comboCp.SelectedIndex = 0;
+
+                campoNombre.Enabled = false;
+                campoApe.Enabled = false;
+                campoTelf.Enabled = false;
+                comboCp.Enabled = false;
+
+            }
+            else
+            {
+                MessageBox.Show("Error al actualizar el paciente", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
     }
 }

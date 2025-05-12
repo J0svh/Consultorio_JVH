@@ -16,5 +16,15 @@ namespace Consultorio_JVH.Vistas
         {
             InitializeComponent();
         }
+
+        private void buttonregistrar_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void buttoncancelar_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

@@ -133,8 +133,10 @@
             this.campoPass.Location = new System.Drawing.Point(326, 266);
             this.campoPass.Margin = new System.Windows.Forms.Padding(2);
             this.campoPass.Name = "campoPass";
+            this.campoPass.PasswordChar = '*';
             this.campoPass.Size = new System.Drawing.Size(125, 22);
             this.campoPass.TabIndex = 6;
+            this.campoPass.UseSystemPasswordChar = true;
             // 
             // comboTipo
             // 
@@ -160,6 +162,7 @@
             this.button1.TabIndex = 8;
             this.button1.Text = "REGISTRAR";
             this.button1.UseVisualStyleBackColor = false;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // label8
             // 
