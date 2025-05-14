@@ -10,16 +10,18 @@ using System.Text;
 using System.Threading.Tasks;
 using MySqlConnector;
 using System.Windows.Forms;
+using System.Reflection;
 
 namespace Consultorio_JVH.bbdd
 {
+
     internal class Conexion
     {
         private static readonly string url = "Server=145.14.151.1;" +
       "Database=u812167471_consultorio25;" +
       "User=u812167471_consultorio25;" +
       "port=3306;" +
-      "password=2025-Consultorio;" +
+      "password= 2025-Consultorio;" +
       "Convert Zero Datetime=True";
 
         public static bool Acceder(string user, string pass)
@@ -66,14 +68,12 @@ namespace Consultorio_JVH.bbdd
         public static DataTable CargarCitas()
         {
             DataTable dt = new DataTable();
-            string consulta = "select nombre, dia, hora from citas where dia = ?dia";
+            string consulta = "SELECT nombre, dia, hora FROM citas WHERE dia = CURRENT_DATE()";
 
             using (MySqlConnection conn = new MySqlConnection(url))
             {
                 conn.Open();
                 MySqlCommand command = new MySqlCommand(consulta, conn);
-                command.Parameters.AddWithValue("?dia", DateTime.Today.ToString("yyyy-dd-MM"));
-
                 MySqlDataAdapter adapter = new MySqlDataAdapter(command);
                 adapter.Fill(dt);
 
@@ -83,11 +83,22 @@ namespace Consultorio_JVH.bbdd
 
                 for (int i = 0; i < dt.Rows.Count; i++)
                 {
-                    dt.Rows[i]["NOMBRE"] = Encriptado.Desencriptar(dt.Rows[i]["NOMBRE"].ToString());
+                    string texto = dt.Rows[i]["NOMBRE"].ToString();
+                    try
+                    {
+                        if (!string.IsNullOrWhiteSpace(texto))
+                            dt.Rows[i]["NOMBRE"] = Encriptado.Desencriptar(texto);
+                    }
+                    catch
+                    {
+                        dt.Rows[i]["NOMBRE"] = texto;
+                    }
                 }
             }
             return dt;
         }
+
+
         public static DataTable CargarCitaEnfermeria()
         {
             DateTime diaHOY = DateTime.Today;
@@ -183,22 +194,35 @@ namespace Consultorio_JVH.bbdd
         public static DataTable VerHistorial(string dni)
         {
             DataTable dt = new DataTable();
-            string consulta = "select fechaConsulta, diagnostico, tratamiento, observaciones, codigofacultativo from consultas where dniPaciente = ?dniPaciente";
+            dt.Columns.Add("FECHA");
+            dt.Columns.Add("DIAGNOSTICO");
+            dt.Columns.Add("TRATAMIENTO");
+            dt.Columns.Add("OBSERVACIONES");
 
-            using (MySqlConnection conn = new MySqlConnection(url))
+            string consulta = "SELECT fechaConsulta, diagnostico, tratamiento, observaciones FROM consultas WHERE dniPaciente = @dni";
+            MySqlConnection conn = new MySqlConnection(url);
+            conn.Open();
+            try
             {
-                conn.Open();
-                MySqlCommand command = new MySqlCommand(consulta, conn);
-                command.Parameters.AddWithValue("?dniPaciente", dni);
+                MySqlCommand pst = new MySqlCommand(consulta, conn);
+                pst.Parameters.AddWithValue("@dni", Encriptado.Encriptar(dni));
 
-                MySqlDataAdapter adapter = new MySqlDataAdapter(command);
-                adapter.Fill(dt);
-
-                dt.Columns[0].ColumnName = "Fecha Consulta";
-                dt.Columns[1].ColumnName = "Diagnostico";
-                dt.Columns[2].ColumnName = "Tratamiento";
-                dt.Columns[3].ColumnName = "Observaciones";
-                dt.Columns[4].ColumnName = "Codigo Facultativo";
+                MySqlDataReader rs = pst.ExecuteReader();
+                while (rs.Read())
+                {
+                    DataRow dr = dt.NewRow();
+                    dr["FECHA"] = Convert.ToDateTime(rs["fechaConsulta"]).ToString("dd-MM-yyyy");
+                    dr["DIAGNOSTICO"] = rs["diagnostico"].ToString();
+                    dr["TRATAMIENTO"] = (rs["tratamiento"]).ToString();
+                    dr["OBSERVACIONES"] = (rs["observaciones"]).ToString();
+                    dt.Rows.Add(dr);
+                }
+                rs.Close();
+                conn.Close();
+            }
+            catch (MySqlException ex)
+            {
+                Console.WriteLine(ex.Message);
             }
             return dt;
         }
@@ -206,23 +230,37 @@ namespace Consultorio_JVH.bbdd
         public static DataTable VerHistorialEnfermeria(string dni)
         {
             DataTable dt = new DataTable();
-            string consulta = "select fechaConsulta, tensionMax, tensionMin, glucosa, peso, codigofacultativo from enfermeria where dniPaciente = ?dniPaciente";
+            dt.Columns.Add("FECHA");
+            dt.Columns.Add("MAXIMA");
+            dt.Columns.Add("MINIMA");
+            dt.Columns.Add("GLUCOSA");
+            dt.Columns.Add("PESO");
 
-            using (MySqlConnection conn = new MySqlConnection(url))
+            string consulta = "SELECT fechaConsulta, tensionMax, tensionMin,glucosa,peso FROM enfermeria WHERE dniPaciente=@dni";
+            MySqlConnection conn = new MySqlConnection(url);
+            conn.Open();
+            try
             {
-                conn.Open();
-                MySqlCommand command = new MySqlCommand(consulta, conn);
-                command.Parameters.AddWithValue("?dniPaciente", dni);
+                MySqlCommand pst = new MySqlCommand(consulta, conn);
+                pst.Parameters.AddWithValue("@dni", Encriptado.Encriptar(dni));
 
-                MySqlDataAdapter adapter = new MySqlDataAdapter(command);
-                adapter.Fill(dt);
-
-                dt.Columns[0].ColumnName = "Fecha Consulta";
-                dt.Columns[1].ColumnName = "Tension Maxima";
-                dt.Columns[2].ColumnName = "Tension Minima";
-                dt.Columns[3].ColumnName = "Glucosa";
-                dt.Columns[4].ColumnName = "Peso";
-                dt.Columns[5].ColumnName = "Codigo Facultativo";
+                MySqlDataReader rs = pst.ExecuteReader();
+                while (rs.Read())
+                {
+                    DataRow dr = dt.NewRow();
+                    dr["FECHA"] = Convert.ToDateTime(rs["fechaConsulta"]).ToString("dd-MM-yyyy");
+                    dr["MAXIMA"] = Convert.ToInt32(rs["tensionMax"]).ToString();
+                    dr["MINIMA"] = Convert.ToInt32(rs["tensionMin"]).ToString();
+                    dr["GLUCOSA"] = Convert.ToInt32(rs["glucosa"]).ToString();
+                    dr["PESO"] = Convert.ToInt32(rs["peso"]).ToString();
+                    dt.Rows.Add(dr);
+                }
+                rs.Close();
+                conn.Close();
+            }
+            catch (MySqlException ex)
+            {
+                Console.WriteLine(ex.Message);
             }
             return dt;
         }
@@ -276,22 +314,30 @@ namespace Consultorio_JVH.bbdd
             }
         }
 
-        public static bool RegistarCita(Cita c)
+        public static bool registrarCita(Cita u)
         {
-            string registro = "Insert into citas(dniPaciente, nombre, dia, hora) Values (?dniPaciente, ?nombre, ?dia, ?hora)";
-
-            using (MySqlConnection conn = new MySqlConnection(url))
+            string consulta = "INSERT INTO citas (dniPaciente, nombre, dia, hora) VALUES (@dniPaciente, @nombre, @dia, @hora)";
+            MySqlConnection conn = new MySqlConnection(url);
+            conn.Open();
+            try
             {
-                conn.Open();
-                MySqlCommand command = new MySqlCommand(registro, conn);
+                MySqlCommand pst = new MySqlCommand(consulta, conn);
+                pst.Parameters.AddWithValue("@dniPaciente", Encriptado.Encriptar(u.DniPaciente));
+                pst.Parameters.AddWithValue("@nombre", Encriptado.Encriptar(u.NombrePaciente));
+                pst.Parameters.AddWithValue("@dia", u.Dia);
+                pst.Parameters.AddWithValue("@hora", u.Hora);
 
-                command.Parameters.AddWithValue("?dniPaciente", Encriptado.Encriptar(c.DniPaciente));
-                command.Parameters.AddWithValue("?nombre", Encriptado.Encriptar(c.NombrePaciente));
-                command.Parameters.AddWithValue("?dia", c.Dia);
-                command.Parameters.AddWithValue("?hora", c.Hora);
 
-                return command.ExecuteNonQuery() > 0;
+
+                pst.ExecuteNonQuery();
+                conn.Close();
+                return true;
             }
+            catch (MySqlException ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            return false;
         }
 
         public static DataTable ListadoPacientes()
@@ -314,12 +360,34 @@ namespace Consultorio_JVH.bbdd
 
                 for (int i = 0; i < dt.Rows.Count; i++)
                 {
-                    dt.Rows[i]["DNI"] = Encriptado.Encriptar(dt.Rows[i]["DNI"].ToString());
-                    dt.Rows[i]["NOMBRE"] = Encriptado.Encriptar(dt.Rows[i]["NOMBRE"].ToString());
-                    dt.Rows[i]["APELLIDOS"] = Encriptado.Encriptar(dt.Rows[i]["APELLIDOS"].ToString());
+                    try { dt.Rows[i]["DNI"] = Encriptado.Desencriptar(dt.Rows[i]["DNI"].ToString()); } catch { dt.Rows[i]["DNI"] = "ERROR"; }
+                    try { dt.Rows[i]["NOMBRE"] = Encriptado.Desencriptar(dt.Rows[i]["NOMBRE"].ToString()); } catch { dt.Rows[i]["NOMBRE"] = "ERROR"; }
+                    try { dt.Rows[i]["APELLIDOS"] = Encriptado.Desencriptar(dt.Rows[i]["APELLIDOS"].ToString()); } catch { dt.Rows[i]["APELLIDOS"] = "ERROR"; }
                 }
             }
             return dt;
+        }
+        public static bool registrarCitaEnfermeria(Cita c)
+        {
+            string registro = $"Insert into citasenfermeria(dniPaciente, nombre, dia, hora)" +
+                $"Values (?dniPaciente, ?nombre, ?dia, ?hora)";
+            MySqlConnection conn = new MySqlConnection(url);
+            conn.Open();
+            try
+            {
+                MySqlCommand co = new MySqlCommand(registro, conn);
+
+                co.Parameters.AddWithValue("?dniPaciente", c.Dia);
+                co.Parameters.AddWithValue("?nombre", c.NombrePaciente);
+                co.Parameters.AddWithValue("?dia", c.Dia);
+                co.Parameters.AddWithValue("?hora", c.Hora);
+
+                co.ExecuteNonQuery();
+                return true;
+            } catch (MySqlException)
+            {
+                return false;
+            }
         }
 
         public static bool RegistrarEnfermeria(Enfermeria e)
@@ -355,7 +423,7 @@ namespace Consultorio_JVH.bbdd
 
                 command.Parameters.AddWithValue("?dni", Encriptado.Encriptar(datos[0].ToString()));
                 command.Parameters.AddWithValue("?nombre", Encriptado.Encriptar(datos[1].ToString()));
-                command.Parameters.AddWithValue("?apellidos", Encriptado.Encriptar(datos[2].ToString()));
+                command.Parameters.AddWithValue("?apellidos", Encriptado.Encriptar (datos[2].ToString()));
                 command.Parameters.AddWithValue("?telefono", Convert.ToInt32(datos[3]));
                 command.Parameters.AddWithValue("?cp", Convert.ToInt32(datos[4]));
 

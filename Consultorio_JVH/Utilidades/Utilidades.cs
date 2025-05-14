@@ -22,9 +22,13 @@ namespace Consultorio_JVH.Utilidades
 
         public static bool ComboNoSeleccionado(ComboBox combo)
         {
-            return combo.SelectedIndex <= 0;
+            return combo.Items.Count == 0 || combo.SelectedIndex < 0 || string.IsNullOrWhiteSpace(combo.Text);
         }
 
+        public static bool RadioButtonSeleccionado(GroupBox groupBox)
+        {
+            return groupBox.Controls.OfType<RadioButton>().Any(r => r.Checked);
+        }
         public static bool compruebaCorreo(string correo)
         {
             string formatoCorreo = "[@]{1}";
@@ -37,10 +41,24 @@ namespace Consultorio_JVH.Utilidades
             MessageBox.Show($"Debe seleccionar un elemento en el desplegable {nombreCombo}", "Alerta", MessageBoxButtons.OK, MessageBoxIcon.Warning);
         }
 
-        // Validación numérica
-        public static bool EsEnteroValido(TextBox campo)
+
+        public static bool EnteroCorrecto(TextBox campo)
         {
-            return int.TryParse(campo.Text, out _);
+            string texto = campo.Text.Trim();
+            if (texto.Length == 9 && long.TryParse(texto, out long numero))
+                return numero >= 100000000 && numero <= 999999999;
+            return false;
+        }
+        public static bool Entero(TextBox campo)
+        {
+            int resultado;
+            return int.TryParse(campo.Text.Trim(), out resultado) && resultado >= 0;
+        }
+       
+
+        public static bool DoubleCorrecto(TextBox campo)
+        {
+            return double.TryParse(campo.Text.Trim(), System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.InvariantCulture, out double resultado) && resultado >= 0;
         }
 
         public static void MostrarAlertaNumerica(string nombreCampo)
@@ -48,40 +66,35 @@ namespace Consultorio_JVH.Utilidades
             MessageBox.Show($"En el campo {nombreCampo} solo se aceptan valores numéricos", "Alerta", MessageBoxButtons.OK, MessageBoxIcon.Warning);
         }
 
-        // Validación de DNI
+        
         private static readonly char[] LetrasDNI = { 'T', 'R', 'W', 'A', 'G', 'M', 'Y', 'F', 'P', 'D', 'X', 'B', 'N', 'J', 'Z', 'S', 'Q', 'V', 'H', 'L', 'C', 'K', 'E' };
         private const string PatronDNI = @"^\d{8}[A-Z]$";
 
-        public static bool FormatoDNICorrecto(string dni)
-        {
-            return Regex.IsMatch(dni, PatronDNI);
-        }
+        
 
         public static bool DNIValido(string dni)
         {
-            if (!FormatoDNICorrecto(dni))
+            if (!Regex.IsMatch(dni, @"^\d{8}[A-Z]$"))
                 return false;
 
             int numero = int.Parse(dni.Substring(0, 8));
-            char letraCalculada = LetrasDNI[numero % 23];
-            return dni[8] == letraCalculada;
+            char letraCorrecta = "TRWAGMYFPDXBNJZSQVHLCKE"[numero % 23];
+            return dni[8] == letraCorrecta;
         }
 
-        // Validación de teléfonos
-        private const string PatronMovil = @"^[6-9]\d{8}$";
-        private const string PatronFijo = @"^[8-9][0-8]{2}\d{6}$";
+
 
         public static bool FormatoTelefonoMovilValido(string telefono)
         {
-            return Regex.IsMatch(telefono, PatronMovil);
+            return Regex.IsMatch(telefono, @"^[6-7]\d{8}$");
         }
 
         public static bool FormatoTelefonoFijoValido(string telefono)
         {
-            return Regex.IsMatch(telefono, PatronFijo);
+            return Regex.IsMatch(telefono, @"^[8-9]\d{8}$");
         }
 
-        // Validación de email
+
         public static bool EmailValido(string email)
         {
             try
@@ -95,20 +108,20 @@ namespace Consultorio_JVH.Utilidades
             }
         }
 
-        // Validación de código postal
-        private const string PatronCP = @"^[0-5]\d{4}$";
+        
 
         public static bool FormatoCPValido(string cp)
         {
+            string PatronCP = "^[0-5]{1}[0-9]{1}[0]{1}[0-9]{2}$";
             return Regex.IsMatch(cp, PatronCP);
         }
 
-        // Validación número de colegiado
-        private const string PatronNumColegiado = @"^[1-9]\d{8}$";
+        
 
         public static bool NumeroColegiadoValido(string numeroColegiado)
         {
-            return Regex.IsMatch(numeroColegiado, PatronNumColegiado);
+            string formatoCorreo = "[1-9]{1}[0-9]{8}";
+            return Regex.IsMatch(numeroColegiado, formatoCorreo);
         }
     }
 }

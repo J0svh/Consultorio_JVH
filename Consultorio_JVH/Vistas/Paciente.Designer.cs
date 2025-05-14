@@ -240,9 +240,9 @@ namespace Consultorio_JVH.Vistas
             this.label1.Location = new System.Drawing.Point(23, 27);
             this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(443, 29);
+            this.label1.Size = new System.Drawing.Size(238, 29);
             this.label1.TabIndex = 15;
-            this.label1.Text = "NUEVO INFORME DE ENFERMERIA";
+            this.label1.Text = "NUEVO PACIENTE";
             // 
             // pictureBox1
             // 
@@ -311,10 +311,10 @@ namespace Consultorio_JVH.Vistas
                 MessageBox.Show("DATOS del PACIENTE Actualizados Satisfactoriamente");
                 dataGridView1.DataSource = Conexion.ListadoPacientes();
 
-                campoDNI.Text = "";
-                campoNombre.Text = "";
-                campoApe.Text = "";
-                campoTelf.Text = "";
+                campoDNI.Text = " ";
+                campoNombre.Text = " ";
+                campoApe.Text = " ";
+                campoTelf.Text = " ";
                 comboCp.SelectedIndex = 0;
 
                 campoNombre.Enabled = false;

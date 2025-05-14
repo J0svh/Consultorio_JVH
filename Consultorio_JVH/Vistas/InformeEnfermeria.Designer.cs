@@ -1,4 +1,9 @@
-﻿namespace Consultorio_JVH.Vistas
+﻿using Consultorio_JVH.bbdd;
+using Consultorio_JVH.Modelo;
+using System.Windows.Forms;
+using System;
+
+namespace Consultorio_JVH.Vistas
 {
     partial class InformeEnfermeria
     {
@@ -314,5 +319,74 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.PictureBox pictureBox1;
+
+        public void registrar()
+        {
+            if (Utilidades.Utilidades.CampoVacio(campoMax))
+            {
+                Utilidades.Utilidades.MostrarAlerta("tensión máxima");
+                return;
+            }
+            if (!Utilidades.Utilidades.DoubleCorrecto(campoMax))
+            {
+                MessageBox.Show("Tensión máxima sistólica debe ser numérico y decimal");
+                return;
+            }
+
+            if (Utilidades.Utilidades.CampoVacio(campoMin))
+            {
+                Utilidades.Utilidades.MostrarAlerta("tensión mínima diastólica");
+                return;
+            }
+            if (!Utilidades.Utilidades.DoubleCorrecto(campoMin))
+            {
+                MessageBox.Show("El campo tensión mínima diastólica debe ser numérico y decimal");
+                return;
+            }
+
+            if (Utilidades.Utilidades.CampoVacio(campoGlucosa))
+            {
+                Utilidades.Utilidades.MostrarAlerta("nivel de glucosa");
+                return;
+            }
+            if (!Utilidades.Utilidades.Entero(campoGlucosa))
+            {
+                MessageBox.Show("El campo nivel de glucosa debe ser numérico y entero");
+                return;
+            }
+
+            if (Utilidades.Utilidades.CampoVacio(campoPeso))
+            {
+                Utilidades.Utilidades.MostrarAlerta("peso");
+                return;
+            }
+            if (!Utilidades.Utilidades.DoubleCorrecto(campoPeso))
+            {
+                MessageBox.Show("El campo peso debe ser numérico y decimal");
+                return;
+            }
+
+            double max = double.Parse(campoMax.Text);
+            double min = double.Parse(campoMin.Text);
+            int glu = int.Parse(campoGlucosa.Text);
+            double peso = double.Parse(campoPeso.Text);
+            DateTime fecha = DateTime.Now;
+            string dni = Principal.DNIPaciente;
+            int idEmpleado = Convert.ToInt32(Login.Datos[1]);
+
+            Enfermeria d = new Enfermeria(dni, fecha, max, min, glu, peso, idEmpleado);
+
+            if (Conexion.RegistrarEnfermeria(d))
+            {
+               MessageBox.Show("Registro realizado correctamente");
+                this.Close();
+            }
+            else
+            {
+               MessageBox.Show("Error en el registro");
+            }
+
+
+        }
     }
 }

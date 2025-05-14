@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Consultorio_JVH.bbdd;
+using Consultorio_JVH.Modelo;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -15,16 +17,18 @@ namespace Consultorio_JVH.Vistas
         public InformeEnfermeria()
         {
             InitializeComponent();
+            campoDNI.Text = Principal.DNIPaciente;
         }
 
         private void buttonregistrar_Click(object sender, EventArgs e)
         {
-
+            registrar();
         }
+       
 
         private void buttoncancelar_Click(object sender, EventArgs e)
         {
-
+            this.Close();
         }
     }
 }

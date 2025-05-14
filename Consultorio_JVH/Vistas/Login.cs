@@ -21,7 +21,7 @@ namespace Consultorio_JVH
 
         public static string[] Datos = new string[3];
         private void botonEntrar_Click(object sender, EventArgs e)
-
+           
         {
             if (Utilidades.Utilidades.CampoVacio(campoUser))
             {
@@ -53,5 +53,7 @@ namespace Consultorio_JVH
             }
 
         }
+
+
     }
 }

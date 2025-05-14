@@ -20,9 +20,7 @@ namespace Consultorio_JVH.Vistas
             Conexion.CargarCombo(comboCp);
         }
 
-        public Paciente(string text1, string text2, string text3, DateTime value, int v1, string text4, int v2, string v3, string v4, string v5, string text5, string text6, DateTime today)
-        {
-        }
+        
 
         private void botonActualizar_Click(object sender, EventArgs e)
         {

@@ -20,48 +20,51 @@ namespace Consultorio_JVH.Vistas
         }
         public static string[] DatosPaciente;
         private void botonBuscar_Click(object sender, EventArgs e)
-        {
-            if (!Utilidades.Utilidades.FormatoDNICorrecto(campoDNI.Text))
+        { 
+            if (Utilidades.Utilidades.CampoVacio(campoDNI))
             {
-                Utilidades.Utilidades.MostrarAlerta("EL FORMATO DEL DNI NO ES VALIDO");
+                Utilidades.Utilidades.MostrarAlerta("Campo DNI");
+            }
+            else if (!Utilidades.Utilidades.DNIValido(campoDNI.Text))
+            {
+                MessageBox.Show("EL FORMATO DEL DNI NO ES VALIDO");
 
             }
-            else if (Utilidades.Utilidades.DNIValido(campoDNI.Text))
-            {
-                Utilidades.Utilidades.MostrarAlerta("EL DNI NO ES VALIDO");
-
-            } else
+             else
             {
                 if (Conexion.CompruebaDni(Utilidades.Encriptado.Encriptar(campoDNI.Text)))
                 {
                     DNIPaciente = campoDNI.Text;
-                    nombreApePacientes = campoNombre.Text + " " + campoApe.Text;
+                    nombreApePacientes = campoNombre.Text + "" + campoApe.Text;
 
                     DatosPaciente = Conexion.RescatarDatosPaciente(Encriptado.Encriptar(campoDNI.Text));
 
                     campoNombre.Text = Utilidades.Encriptado.Desencriptar(DatosPaciente[0]);
                     campoApe.Text = Utilidades.Encriptado.Desencriptar(DatosPaciente[1]);
-                    campoTelf.Text = DatosPaciente[3];
-                    campoMail.Text = DatosPaciente[2];
+                    campoTelf.Text = DatosPaciente[2];
+                    campoMail.Text = DatosPaciente[3];
 
                     botonActualizar.Enabled = true;
                     botonCita.Enabled = true;
                     botonInforme.Enabled = true;
-                    if (Login.Datos[2].Equals("MËDICO"))
+                    if (Login.Datos[2].Equals("MEDICO"))
                     {
-                        dataGridView1.DataSource = Conexion.VerHistorial(Encriptado.Encriptar(campoDNI.Text));
+                        dataGridView1.DataSource = Conexion.VerHistorial(campoDNI.Text);
                     }
                     else
                     {
-                        dataGridView1.DataSource = Conexion.VerHistorialEnfermeria(Encriptado.Encriptar(campoDNI.Text));
+                        dataGridView1.DataSource = Conexion.VerHistorialEnfermeria(campoDNI.Text);
 
                     }
+                }
+                else { 
+                    MessageBox.Show("El Paciente con ese DNI, no existe. Porfavor Regístrelo primero");
+                    NuevoPaciente np = new NuevoPaciente();
+                    np.Show();
 
 
                 }
-                MessageBox.Show("El Paciente cone se DNI, no existe. Porfavor Regístrelo primero");
-                NuevoPaciente np = new NuevoPaciente();
-                np.Show();
+                
             }
         }
 
@@ -69,22 +72,22 @@ namespace Consultorio_JVH.Vistas
 
         private void Principal_Load(object sender, EventArgs e)
         {
-            if (Login.Datos[2].Equals("MËDICO"))
+            if (Login.Datos[2].Equals("MEDICO"))
             {
-                label1.Text = " CONSULTA MËDICA";
-                label7.Text = "HISTORIAL DE CONSULTAS MËDICAS";
+                label1.Text = " CONSULTA MÉDICO";
+                label7.Text = "HISTORIAL DE CONSULTAS MÉDICA";
 
             } else
             {
                 label1.Text = " CONSULTA ENFERMERÍA";
-                label7.Text = "HISTORIAL DE CONSULTAS DEO ENFERMERÍA";
+                label7.Text = "HISTORIAL DE CONSULTAS DE ENFERMERÍA";
 
             }
         }
 
         private void botonInforme_Click(object sender, EventArgs e)
         {
-            if (Login.Datos[2].Equals("MËDICO"))
+            if (Login.Datos[2].Equals("MEDICO"))
             {
                 InformeConsulta ic = new InformeConsulta();
                 ic.Show();
@@ -98,13 +101,17 @@ namespace Consultorio_JVH.Vistas
 
         private void botonCita_Click(object sender, EventArgs e)
         {
-            if (Login.Datos[2].Equals("MËDICO"))
+             if (Login.Datos[2].Equals("MEDICO"))
             {
+                DNIPaciente = campoDNI.Text.Trim();
+                nombreApePacientes = campoNombre.Text.Trim() + " " + campoApe.Text.Trim();
                 NuevaCita nc = new NuevaCita();
                 nc.Show();
             }
             else
             {
+                DNIPaciente = campoDNI.Text.Trim();
+                nombreApePacientes = campoNombre.Text.Trim() + " " + campoApe.Text.Trim();
                 NuevaCitaEnfermeria ne = new NuevaCitaEnfermeria();
                 ne.Show();
             }
@@ -112,16 +119,28 @@ namespace Consultorio_JVH.Vistas
 
         private void botonActualizar_Click(object sender, EventArgs e)
         {
-            if (Login.Datos[2].Equals("MËDICO"))
+            try
             {
-                dataGridView1.DataSource= Conexion.VerHistorial(Encriptado.Encriptar
-                    (campoDNI.Text));
+                if (Login.Datos[2].Equals("MEDICO"))
+                {
+                    dataGridView1.DataSource = Conexion.VerHistorial(campoDNI.Text);
+                }
+                else
+                {
+                    dataGridView1.DataSource = Conexion.VerHistorialEnfermeria(campoDNI.Text);
+                }
             }
-            else
+            catch (Exception ex)
             {
-                dataGridView1.DataSource = Conexion.VerHistorialEnfermeria(Encriptado.Encriptar
-                    (campoDNI.Text));
+                MessageBox.Show("Error al cargar datos: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+        private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            MessageBox.Show(dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString());
+
+
         }
     }
 }

@@ -18,7 +18,10 @@ namespace Consultorio_JVH.Vistas
         {
             InitializeComponent();
 
-            fecha.MinDate = DateTime.Now;
+
+            radioButtonotros.Checked = true;
+            buttonSi.Checked = true;
+            buttonHabitual.Checked = true;
             Conexion.CargarCombo(comboCP);
             campoDni.Text = Principal.DNIPaciente;
         }
@@ -27,78 +30,83 @@ namespace Consultorio_JVH.Vistas
         {
             if (Utilidades.Utilidades.CampoVacio(campoDni))
             {
-                Utilidades.Utilidades.MostrarAlerta("El campo dni esta vacio");
+                Utilidades.Utilidades.MostrarAlerta("DNI ");
             }
-            else if (Utilidades.Utilidades.FormatoDNICorrecto(campoDni.Text))
+            else if (!Utilidades.Utilidades.DNIValido(campoDni.Text))
             {
-                Utilidades.Utilidades.MostrarAlerta("El formato del dni no es correcto");
-            }
-            else if (Utilidades.Utilidades.DNIValido(campoDni.Text))
-            {
-                Utilidades.Utilidades.MostrarAlerta("El dni no es valido");
+                MessageBox.Show("El formato del dni no es correcto");
             }
             else if (Utilidades.Utilidades.CampoVacio(campoNombre))
             {
-                Utilidades.Utilidades.MostrarAlerta("El campo nombre esta vacio");
+                Utilidades.Utilidades.MostrarAlerta("nombre ");
             }
             else if (Utilidades.Utilidades.CampoVacio(campoApe))
             {
-                Utilidades.Utilidades.MostrarAlerta("El campo apellidos esta vacio");
+                Utilidades.Utilidades.MostrarAlerta("apellidos ");
             }
             else if (Utilidades.Utilidades.CampoVacio(campoTelf))
             {
-                Utilidades.Utilidades.MostrarAlerta("El campo telefono esta vacio");
+                Utilidades.Utilidades.MostrarAlerta("telefono  ");
             }
-            else if (Utilidades.Utilidades.EsEnteroValido(campoTelf))
+            else if (!Utilidades.Utilidades.FormatoTelefonoMovilValido(campoTelf.Text))
             {
-                Utilidades.Utilidades.MostrarAlerta("El campo telefono es numerico");
-            }
-            else if (!Utilidades.Utilidades.FormatoTelefonoFijoValido(campoTelf.Text) || !Utilidades.Utilidades.FormatoTelefonoMovilValido(campoTelf.Text))
-            {
-                Utilidades.Utilidades.MostrarAlerta("El formato del telefono no es valido");
+                MessageBox.Show("El formato del telefono no es valido");
             }
             else if (Utilidades.Utilidades.CampoVacio(campoEmail))
             {
-                Utilidades.Utilidades.MostrarAlerta("El campo email esta vacio");
+                Utilidades.Utilidades.MostrarAlerta("email");
             }
-            else if (Utilidades.Utilidades.compruebaCorreo(campoEmail.Text))
+            else if (!Utilidades.Utilidades.compruebaCorreo(campoEmail.Text))
             {
-                Utilidades.Utilidades.MostrarAlerta("El formato email no es valido");
+                MessageBox.Show("El formato email no es valido");
             }
-            else if (Utilidades.Utilidades.ComboNoSeleccionado(comboCP))
+            if (!Utilidades.Utilidades.RadioButtonSeleccionado(groupBoxsexo))
             {
-                Utilidades.Utilidades.MostrarAlerta("El campo cp no ha sido seleccionado");
+                MessageBox.Show("Debe seleccionar un Sexo");
+                return;
+            }
+
+            if (!Utilidades.Utilidades.RadioButtonSeleccionado(groupBoxtabaquismo))
+            {
+                MessageBox.Show("Debe seleccionar un Estado");
+                return;
+            }
+
+            if (!Utilidades.Utilidades.RadioButtonSeleccionado(groupBoxconsumo))
+            {
+                MessageBox.Show("Debe seleccionar un Turno");
+                return;
             }
             else if (Utilidades.Utilidades.CampoVacio(campoAntecedentes))
             {
-                Utilidades.Utilidades.MostrarAlerta("El campo antecedentes esta vacio");
+                Utilidades.Utilidades.MostrarAlerta("antecedentes");
             }
             else if (Utilidades.Utilidades.CampoVacio(campoPersonal))
             {
-                Utilidades.Utilidades.MostrarAlerta("El campo personal esta vacio");
+                Utilidades.Utilidades.MostrarAlerta("personal");
             }
             else
             {
-               Modelo.Paciente paciente = new Modelo.Paciente(
-                    campoDni.Text,
-                    campoNombre.Text,
-                    campoApe.Text,
-                    fecha.Value,
-                    Convert.ToInt32(campoTelf.Text),
-                    campoEmail.Text,
-                    Convert.ToInt32
-                    (comboCP.SelectedValue),
-                    rescatarSexo(),
-                    rescatarTabaco(),
-                    rescatarAlcohol(),
-                    campoAntecedentes.Text,
-                    campoPersonal.Text,
-                    DateTime.Today
-                );
+                Modelo.Paciente paciente = new Modelo.Paciente(
+                     campoDni.Text,
+                     campoNombre.Text,
+                     campoApe.Text,
+                     fecha.Value,
+                     Convert.ToInt32(campoTelf.Text),
+                     campoEmail.Text,
+                     Convert.ToInt32
+                     (comboCP.SelectedValue),
+                     rescatarSexo(),
+                     rescatarTabaco(),
+                     rescatarAlcohol(),
+                     campoAntecedentes.Text,
+                     campoPersonal.Text,
+                     DateTime.Today
+                 );
 
                 if (Conexion.RegistrarPaciente(paciente))
                 {
-                    Utilidades.Utilidades.MostrarAlerta("Registro realizado correctamente");
+                   MessageBox.Show("Registro realizado correctamente");
                     this.Close();
                 }
                 else

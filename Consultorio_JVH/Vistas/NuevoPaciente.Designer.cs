@@ -389,6 +389,8 @@
             // comboCP
             // 
             this.comboCP.FormattingEnabled = true;
+            this.comboCP.Items.AddRange(new object[] {
+            "Seleccione:"});
             this.comboCP.Location = new System.Drawing.Point(190, 184);
             this.comboCP.Margin = new System.Windows.Forms.Padding(2);
             this.comboCP.Name = "comboCP";

@@ -90,10 +90,10 @@
             // pictureBox4
             // 
             this.pictureBox4.Image = global::Consultorio_JVH.Properties.Resources.principal;
-            this.pictureBox4.Location = new System.Drawing.Point(808, 188);
+            this.pictureBox4.Location = new System.Drawing.Point(800, 188);
             this.pictureBox4.Margin = new System.Windows.Forms.Padding(2);
             this.pictureBox4.Name = "pictureBox4";
-            this.pictureBox4.Size = new System.Drawing.Size(401, 338);
+            this.pictureBox4.Size = new System.Drawing.Size(409, 338);
             this.pictureBox4.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBox4.TabIndex = 8;
             this.pictureBox4.TabStop = false;

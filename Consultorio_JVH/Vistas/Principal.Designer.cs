@@ -109,6 +109,7 @@
             this.dataGridView1.RowTemplate.Height = 24;
             this.dataGridView1.Size = new System.Drawing.Size(768, 183);
             this.dataGridView1.TabIndex = 5;
+            this.dataGridView1.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellClick);
             // 
             // label7
             // 
@@ -353,5 +354,7 @@
 
         public static string DNIPaciente;
         public static string nombreApePacientes;
+        
+
     }
 }

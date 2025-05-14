@@ -1,4 +1,5 @@
 ﻿using Consultorio_JVH.Modelo;
+using Consultorio_JVH.Vistas;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,38 +12,41 @@ namespace Consultorio_JVH.Utilidades
 {
     internal class Email
     {
-        public static void EnvioCorreo(string pass, string enviador, string recibidor,
-            string mensaje, string asunto, Cita cita)
+        public static void enviarCorreo(Cita d)
         {
-            MailMessage correo = new MailMessage();
             try
             {
-                correo.From = new MailAddress(enviador);
-                correo.To.Add(recibidor);
-                correo.Subject = asunto;
-                correo.Body = mensaje + cita.ToString();
-                correo.IsBodyHtml = true;
-                correo.Priority = MailPriority.Normal;
+                string destino = Principal.DatosPaciente[3];
+                string asunto = "Cita Medica";
+                string mensaje = d.ToString() + Environment.NewLine + "<p><img src=https://reynaldomd.com/firmacorreo/firmacorreo.png></p>" + Environment.NewLine + "Has recibido este email porque has solictado una cita en el centro médico. Por favor, no responda a este correo\r\nelectronico: ha sido generado automáticamente.";
 
                 SmtpClient smtp = new SmtpClient();
                 smtp.UseDefaultCredentials = false;
-                smtp.Host = "smtp.gmail.com";
+                smtp.Host = "smtp.hostinger.com";
                 smtp.Port = 587;
-                smtp.Credentials = new System.Net.NetworkCredential(enviador, pass);
+                smtp.Credentials = new System.Net.NetworkCredential("consultorio@reynaldomd.com", "2024-Consultorio");
                 smtp.EnableSsl = true;
+
+                MailMessage correo = new MailMessage();
+                correo.From = new MailAddress("consultorio@reynaldomd.com");
+                correo.To.Add(destino);
+                correo.Subject = asunto;
+                correo.Body = mensaje;
+                correo.IsBodyHtml = true;
+                correo.Priority = MailPriority.Normal;
                 smtp.Send(correo);
-
-                MessageBox.Show("Correo enviado correctamente", "Exito", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
+                correo.Dispose();
+            }
+            catch (SmtpException ex)
+            {
+                MessageBox.Show($"Error al enviar el correo: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error al enviar el correo: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            finally
-            {
-                correo.Dispose();
+                MessageBox.Show($"Error inesperado: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
     }
 }
+
